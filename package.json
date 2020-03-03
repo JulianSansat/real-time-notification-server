@@ -1,0 +1,10 @@
+{
+  "name": "real-time-notification-server",
+  "version": "0.0.1",
+  "description": "NodeJS server using express framework and socket.io in order to subscribe to redis channels",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ioredis": "^4.16.0",
+    "socket.io": "^2.3.0"
+  }
+}
