@@ -53,6 +53,9 @@
     <script>
       $(function() {
         var socket = io();
+        socket.on('laravel_database_notifications:App\\Events\\newNotification', function(data){
+          console.log(data.notification);
+        });
         $("form").submit(function(e) {
           e.preventDefault(); // prevents page reloading
           socket.emit("chat message", $("#m").val());
