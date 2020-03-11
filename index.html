@@ -11,25 +11,6 @@
       body {
         font: 13px Helvetica, Arial;
       }
-      form {
-        background: #000;
-        padding: 3px;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-      }
-      form input {
-        border: 0;
-        padding: 10px;
-        width: 90%;
-        margin-right: 0.5%;
-      }
-      form button {
-        width: 9%;
-        background: rgb(130, 224, 255);
-        border: none;
-        padding: 10px;
-      }
       #messages {
         list-style-type: none;
         margin: 0;
@@ -41,26 +22,31 @@
       #messages li:nth-child(odd) {
         background: #eee;
       }
+      a{
+        text-decoration: none;
+        color: black;
+      }
+
     </style>
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+    <div>
+      <p>New notifications: <span id="notification_counter">0</span></p>
+      <ul id="messages"></ul>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
+      let notificationCounter = 0;
       $(function() {
         var socket = io();
         socket.on('laravel_database_notifications:App\\Events\\newNotification', function(data){
           console.log(data.notification);
-        });
-        $("form").submit(function(e) {
-          e.preventDefault(); // prevents page reloading
-          socket.emit("chat message", $("#m").val());
-          $("#m").val("");
-          return false;
+          notificationCounter++;
+          let notificationObject = data.notification;
+          let notificationHtml = '<a href="'+notificationObject.action_url+'"><p>'+notificationObject.title+'</p><p>'+ notificationObject.body +'</p></a>'; 
+          $('#notification_counter').html(notificationCounter);
+          $('#messages').append($('<li>').html(notificationHtml));
         });
       });
     </script>
